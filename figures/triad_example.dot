@@ -1,0 +1,14 @@
+graph {
+ size="5,5"
+ ranksep=1.5
+ node [shape=plaintext,fontname=Helvetica]
+ QO [label=<Q<SUP>Opossum</SUP>t<SUP>Opossum</SUP>>]
+ QM [label=<Q<SUP>Mouse</SUP>t<SUP>Mouse</SUP>>]
+ QH [label=<Q<SUP>Human</SUP>t<SUP>Human</SUP>>]
+ "f(0)" -- QO [len=0.5]
+ QO -- "Opossum" [len=4.1]
+ "f(0)" -- QM [len=0.5]
+ QM  -- "Mouse" [len=1.9]
+ "f(0)" -- QH  [len=0.5]
+ QH -- "Human" [len=0.9]
+}

@@ -1,0 +1,7 @@
+digraph {
+	node [shape=plaintext,fontname=Helvetica];
+	a [ label=<Clock-like GTR+&#915; (11)> ]
+	b [ label=<GTR+&#915; (12)> ]
+  	a -> b 
+}
+

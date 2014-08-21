@@ -1,0 +1,4 @@
+digraph {
+	node [shape=plaintext,fontname=Helvetica];
+	"GTR (11)" -> "General (39)";
+}

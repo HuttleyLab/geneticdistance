@@ -1,0 +1,6 @@
+digraph {
+	node [shape=plaintext,fontname=Helvetica];
+	"Clock-like GTR (10)" -> "GTR (11)";
+	"Clock-like GTR (10)" -> "Clock-like General (38)" -> "General (39)";
+}
+
