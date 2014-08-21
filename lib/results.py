@@ -1,7 +1,6 @@
 from __future__ import division
 
 from scipy.stats import chisqprob
-from dlc import is_DLC, is_generator_unique, is_fit_free
 from nest import inflate_likelihood_function, _update
 
 from gzip import GzipFile
@@ -55,6 +54,8 @@ def parse_stats(from_directory, model_pos, stats=None, **kw):
                         pass # clean them up later
 
             gene = None
+        except (KeyboardInterrupt, SystemExit):
+            raise
         except:
             logging.warning((' Skipping ' + gene + ':\n' if gene else ' ') +
                     traceback.format_exc())
@@ -137,14 +138,19 @@ class DLCCheck(Check):
         super(DLCCheck, self).__init__('DLC')
     
     def check(self, row):
-        return is_DLC(inflate_likelihood_function(row))
+        return inflate_likelihood_function(row).isDLC()
 
 class UniqueCheck(Check):
     def __init__(self):
         super(UniqueCheck, self).__init__('Generator Unique')
 
     def check(self, row):
-        return is_generator_unique(inflate_likelihood_function(row))
+        try:
+            armu = inflate_likelihood_function(row).areRateMatricesUnique()
+        except (ArithmeticError, NotImplementedError):
+            logging.info(traceback.format_exc())
+            return False
+        return armu
 
 def build_checks(g_sig_level=None, unique_check=False, DLC_check=False,
         aln_length=None, upper_g_sig_level=None, **kw):

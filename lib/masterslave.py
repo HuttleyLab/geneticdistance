@@ -1,7 +1,7 @@
 try:
     from mpi4py import MPI
     USING_MPI = MPI.COMM_WORLD.Get_size() > 1
-except:
+except ImportError:
     USING_MPI = False
 
 from itertools import izip
@@ -9,7 +9,7 @@ from logging import StreamHandler
 import sys
 import os
 
-__version__ = '0.0.8-dev'
+__version__ = '0.0.9-dev'
 
 _MASTER = 0
 _WORKTAG = 1

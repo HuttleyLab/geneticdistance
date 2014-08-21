@@ -1,9 +1,7 @@
 from __future__ import division
 
-if __name__ == '__main__':
-    import nest
-else:
-    from ..src import nest
+import lib
+import nest
 
 from cogent.util.misc import ConstraintError
 from cogent.evolve.substitution_model import General, GeneralStationary
@@ -182,7 +180,9 @@ def test_clock_fit():
             if ok:
                 break
         else:
-            raise AssertionError(model + ' ENS failed to converge')
+            raise AssertionError(model['name'] + 
+                    ('plus Gamma' if model['with_rate'] else '')
+                    + ' ENS failed to converge')
 
 def test_populate_parameters():
     """populate_parameters should set up a nested likelihood function"""

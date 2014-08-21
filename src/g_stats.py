@@ -1,7 +1,10 @@
 # disable cogent.utils.parallel to stop it from conflicting with masterslave
 import os
 os.environ['DONT_USE_MPI'] = '1'
+from warnings import filterwarnings
+filterwarnings('ignore', 'Not using MPI', UserWarning)
 
+import lib
 import masterslave
 import nest
 
@@ -23,7 +26,7 @@ import glob
 import sys
 import os
 
-__version__ = '0.0.9-dev'
+__version__ = '0.0.10-dev'
 
 _versions = {
         'g_stats'     : __version__,

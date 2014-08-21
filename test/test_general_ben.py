@@ -1,7 +1,5 @@
-if __name__ == '__main__':
-    from general_ben import GeneralBen
-else:
-    from ..src.general_ben import GeneralBen
+import lib
+from general_ben import GeneralBen
 from nest import (inflate_likelihood_function, populate_parameters,
         get_expected_no_subs, deflate_likelihood_function)
 

@@ -5,9 +5,9 @@ from cogent.maths.matrix_exponentiation import EigenExponentiator
 from matrix_exponential_integration import (
         VanLoanIntegratingExponentiator, VonBingIntegratingExponentiator)
 import numpy as np
-from scipy_optimize import newton
+from scipy.optimize import newton
 
-__version__ = '0.0.2-dev'
+__version__ = '0.0.3-dev'
 
 class CalcQd(object):
     def __init__(self, exp, calcExMat, word_probs, mprobs_matrix, *params):
@@ -53,6 +53,8 @@ class CalcQd(object):
         try:
             self.alpha = newton(self._f, self.guess_alpha, self._fprime,
                     fprime2=self._fprime2)
+        except (KeyboardInterrupt, SystemExit):
+            raise
         except:
             self.alpha = self.guess_alpha
         Q = self.alpha * self.R

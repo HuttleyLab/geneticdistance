@@ -1,5 +1,7 @@
 from __future__ import division
 
+import lib
+
 from outliers import qcrop
 
 from rpy2.robjects.lib.ggplot2 import ggplot

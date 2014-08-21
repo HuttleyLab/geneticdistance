@@ -3,10 +3,9 @@ from __future__ import division
 from cogent import LoadTree, DNA
 from cogent.evolve.models import GTR
 
-if __name__ == '__main__':
-    import jsd
-else:
-    from ..src import jsd
+import lib
+import jsd
+
 from numpy.testing import assert_almost_equal, assert_array_almost_equal
 from numpy import log, array
 

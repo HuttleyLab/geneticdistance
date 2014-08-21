@@ -1,5 +1,7 @@
 from __future__ import division
 
+import lib
+
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv
 from rpy2.robjects import r as R

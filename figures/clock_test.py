@@ -1,5 +1,7 @@
 from __future__ import division
 
+import lib
+
 from results import lrt_p
 
 from rpy2.robjects.lib.ggplot2 import ggplot

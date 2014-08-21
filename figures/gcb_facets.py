@@ -1,5 +1,7 @@
 from __future__ import division
 
+import lib
+
 from outliers import qcrop
 
 from cogent import LoadSeqs, LoadTree

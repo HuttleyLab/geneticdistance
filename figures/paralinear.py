@@ -1,5 +1,7 @@
 from __future__ import division
 
+import lib
+
 from cogent import LoadSeqs, LoadTree
 from cogent import DNA
 

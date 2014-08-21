@@ -1,9 +1,7 @@
 from __future__ import division
 
-if __name__ == '__main__':
-    import masterslave
-else:
-    from ..src import masterslave
+import lib
+import masterslave
 
 from nose.tools import assert_equal, assert_less, assert_in
 from tempfile import gettempdir

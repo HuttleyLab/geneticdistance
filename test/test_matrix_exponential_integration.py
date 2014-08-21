@@ -1,7 +1,5 @@
-if __name__ == '__main__':
-    import matrix_exponential_integration as expm
-else:
-    from ..src import matrix_exponential_integration as expm
+import lib
+import matrix_exponential_integration as expm
 from numpy.testing import assert_almost_equal, assert_raises, \
     assert_array_almost_equal
 from numpy import array, dot, diag, exp
