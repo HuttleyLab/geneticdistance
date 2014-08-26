@@ -148,7 +148,7 @@ class UniqueCheck(Check):
         try:
             armu = inflate_likelihood_function(row).areRateMatricesUnique()
         except (ArithmeticError, NotImplementedError):
-            logging.info(traceback.format_exc())
+            logging.debug(traceback.format_exc())
             return False
         return armu
 
