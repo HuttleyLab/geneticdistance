@@ -1,6 +1,5 @@
 from __future__ import division
 
-import scipy
 from numpy import abs, floor, array, std, mean, nan
 
 from rpy2.robjects import DataFrame, FloatVector, StrVector, FactorVector
@@ -8,25 +7,6 @@ from rpy2.robjects.packages import importr
 quantreg = importr('quantreg')
 
 import sys
-
-def trim(x, y, proportion=0.005):
-    assert len(x) == len(y), 'x and y must be the same length'
-    x, y = array(x), array(y)
-    cut = floor(proportion * len(x))
-    print 'Trimming', cut, 'values'
-    if cut == 0:
-        return x, y
-    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x,y)
-    res = abs(slope * x + intercept - y)
-    selecter = zip(x, y, res)
-    res.sort()
-    threshold = res[-cut]
-    print 'Threshold', threshold
-    x, y = zip(*[(_x, _y) for _x, _y, _r in selecter if _r < threshold])
-    for _x, _y, _r in selecter:
-        if _r >= threshold:
-            print 'Lost', _x, _y
-    return array(x), array(y)
 
 def qlim(x, y):
     df = DataFrame({'x':FloatVector(x), 'y':FloatVector(y)})

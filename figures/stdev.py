@@ -7,7 +7,6 @@ from rpy2.robjects import DataFrame, FloatVector, IntVector, StrVector, globalen
 from rpy2.robjects import r as R
 
 import numpy as np
-from scipy.stats.mstats import mquantiles
 
 from collections import defaultdict, Counter
 from results import gs_p, get_results

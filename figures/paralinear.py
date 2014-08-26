@@ -5,9 +5,6 @@ import lib
 from cogent import LoadSeqs, LoadTree
 from cogent import DNA
 
-import scipy
-from gnuplot import gnuplot
-
 import subprocess
 import csv
 import tempfile
@@ -18,6 +15,8 @@ from rpy2.robjects import r as R
 
 from gzip import GzipFile
 from cogent.evolve.pairwise_distance import ParalinearPair
+
+from handy_r import through_the_origin
 
 import numpy as np
 import glob
@@ -51,12 +50,11 @@ def get_paralinear_distances(gene, data_directory=None, third_position=False, **
     return {frozenset(k):v for k, v in dists.items()}
 
 def print_stats(x, y):
-    x = np.array(x)
-    y = np.array(y)
-    slope = (x*y).sum() / (x**2).sum()
-    r_squared =  ((x*slope)**2).sum() / (y**2).sum()
-    se = np.sqrt(((y-slope*x)**2).sum()/(len(x)-1)/((x-x.mean())**2).sum())
-    print 'slope r_squared se 0.25% 0.75%'
+    stats = through_the_origin(x, y)
+    print 'slope r_squared se 0.025% 0.975%'
+    slope = stats['coefficient']
+    se = stats['stderr']
+    r_squared = stats['r.squared']
     print slope, r_squared, se, slope - 1.96*se, slope + 1.96*se
     print len(x), ' samples'
 

@@ -5,7 +5,7 @@ from cogent.maths.matrix_exponentiation import EigenExponentiator
 from matrix_exponential_integration import (
         VanLoanIntegratingExponentiator, VonBingIntegratingExponentiator)
 import numpy as np
-from scipy.optimize import newton
+from scipy_optimize import newton
 
 __version__ = '0.0.3-dev'
 

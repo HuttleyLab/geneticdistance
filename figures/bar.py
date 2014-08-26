@@ -7,14 +7,14 @@ from rpy2.robjects import DataFrame, FloatVector, IntVector, StrVector, globalen
 from rpy2.robjects import r as R
 
 import numpy as np
-from scipy.stats.mstats import mquantiles
+from handy_r import quantile
 
 from collections import defaultdict
 from results import gs_p, get_results
 import sys
 
 def get_alpha(g):
-    q25, q75 = mquantiles(g, (0.25, 0.75))
+    q25, q75 = quantile(g, [0.25, 0.75])
     x = 2.5*q75 - 1.5*q25
     s = sum(1 for _g in g if _g < x and _g >= x-0.01)
     return 0 if s == 0 else 1/s

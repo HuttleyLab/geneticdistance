@@ -3,6 +3,7 @@ from __future__ import division
 import lib
 
 from outliers import qcrop
+from handy_r import quantile
 
 from cogent import LoadSeqs, LoadTree
 from cogent import DNA
@@ -10,8 +11,6 @@ from cogent import DNA
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv
 from rpy2.robjects import r as R
-
-import scipy
 
 from gzip import GzipFile
 
@@ -89,8 +88,7 @@ def plot_JS_EN_scatter_by_pairs(stats, output_file=None, **kw):
         n20 = [_y for _x, _y in zip(x,y) if _x >= 0.19 and _x <= 0.21]
         if len(n20) > 0:
             print 'mean', 'quantile025', 'quantile975', 'length'
-            print np.mean(n20), \
-                    scipy.stats.mstats.mquantiles(n20, [0.025,0.975]), len(n20)
+            print np.mean(n20), quantile(n20, [0.025,0.975]), len(n20)
     
     globalenv['df'] = qcrop(xlist, ylist, labellist)
 

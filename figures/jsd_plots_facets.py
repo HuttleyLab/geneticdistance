@@ -10,8 +10,6 @@ from rpy2.robjects import r as R
 from rpy2.robjects.packages import importr
 quantreg = importr('quantreg')
 
-import scipy
-
 import numpy as np
 import sys
 
