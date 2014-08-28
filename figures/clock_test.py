@@ -2,7 +2,7 @@ from __future__ import division
 
 import lib
 
-from results import lrt_p
+from handy_r import lrt_p
 
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv, StrVector

@@ -359,7 +359,11 @@ def populate_parameters(lf_to, lf_from, **sp_kw):
         elif lf_to.model.name == 'GTR':
             scale = mprobs['G']/rate_matrix['T']['G']
         else:
-            from scipy.optimize import minimize_scalar
+            try:
+                from scipy.optimize import minimize_scalar
+            except ImportError:
+                raise RuntimeError('scipy is required if you call ' +
+                        'populate_parameters with a ' + lf_to.model.name)
             tol = 1.1*RatioParamDefn('dummy').lower
             def test(scale):
                 with lf_to.updatesPostponed():

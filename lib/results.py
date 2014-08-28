@@ -1,6 +1,5 @@
 from __future__ import division
 
-from scipy.stats import chisqprob
 from nest import inflate_likelihood_function, _update
 
 from gzip import GzipFile
@@ -85,11 +84,6 @@ def clean_and_flatten(stats, checks):
         print 'Got', lived[fd], 'from', fd
         print 'Lost', died[fd], 'from', fd
 
-def lrt_p(lhn, lha, dfn, dfa):
-    LR = 2*(lha - lhn)
-    df = dfa - dfn
-    return chisqprob(LR, df)
-
 class Check(object):
     def __init__(self, name):
         self._c = Counter()
@@ -150,6 +144,9 @@ class UniqueCheck(Check):
         except (ArithmeticError, NotImplementedError):
             logging.debug(traceback.format_exc())
             return False
+        except AssertionError:
+            logging.warning(traceback.format_exc())
+            return False        
         return armu
 
 def build_checks(g_sig_level=None, unique_check=False, DLC_check=False,

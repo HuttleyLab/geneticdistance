@@ -4,6 +4,7 @@ echo $G $A
 set -e
 set -x
 python overall_nt.py -f input_files/exons_combined -D -u -a $A -g $G -p '"Mouse", "Human"'
+python for_lars.py -f input_files/clock_test -D -u -a $A -g $G
 python stdev.py -f input_files/stdev -D -u -a $A -g $G -p '"Human", "Mouse"'
 python akaike.py -f input_files/g_tests -D -u -a $A -g $G
 twopi -Tpdf triad_example.dot > figure0.pdf

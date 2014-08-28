@@ -81,6 +81,7 @@ def plot_JS_EN_scatter_by_pairs(stats, output_file=None, pair=None, **kw):
     df = DataFrame({'x':FloatVector(x), 'y':FloatVector(y)})
     globalenv['df'] = df
     cmd = 'gg <- ggplot(df, aes(x, y)) + geom_point(alpha=0.2) + ' + \
+            'geom_abline(intercept=0, slope=1, color="white") + ' + \
             'xlab(bquote(.("'+' to '.join(pair)+'") ~ d[ENS])) + ' + \
             'ylab(bquote(.("'+' to '.join(pair)+'") ~ d[para])) + ' + \
             'coord_cartesian(xlim=c(0,1), ylim=c(0,1))'

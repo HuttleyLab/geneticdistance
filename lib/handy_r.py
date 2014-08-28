@@ -18,6 +18,11 @@ def through_the_origin(x, y):
             'stderr' : s.rx2('coefficients')[1],
             'r.squared' : s.rx2('r.squared')[0]}
 
+def lrt_p(lhn, lha, dfn, dfa):
+    LR = 2*(lha - lhn)
+    df = dfa - dfn
+    return 1. - r.pchisq(LR, df)[0]
+
 def main():
     print quantile(range(10), [0.25, 0.5, 0.75])
     from numpy import arange, random
