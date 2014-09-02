@@ -6,14 +6,7 @@ from math import log as ln
 import logging
 import os
 
-__version__ = '0.0.1-dev'
-
-def column_dist(aln, alphabet = DNA.Alphabet):
-    d = {c:0 for c in alphabet.getWordAlphabet(len(aln.Names))}
-    inc = 1/len(aln)
-    for c in aln.iterPositions():
-        d[''.join(c)] += inc
-    return d
+__version__ = '0.0.2-dev'
 
 def distribution(seq, alphabet = DNA.Alphabet):
     d = [seq.count(b) for b in alphabet]

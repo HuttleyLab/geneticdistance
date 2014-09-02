@@ -9,6 +9,7 @@ from socket import gethostname
 import logging
 import types
 
+from shutil import rmtree
 import os
 import sys
 
@@ -117,16 +118,27 @@ def test_imap():
     for n in [size//2, size-1, size, size*2]:
         test_n(n)
 
-def test_io():
-    try:
-        tempdir = os.path.join(gettempdir(), 'test_io')
-        masterslave.checkmakedirs(tempdir)
-        tempfilename = os.path.join(tempdir, 'tempfile')
+class TestIO(object):
+    def setup(self):
+        self.tempdir = os.path.join(gettempdir(), 'test_io')
+        masterslave.checkmakedirs(self.tempdir)
+        self.tempfilename = os.path.join(self.tempdir, 'tempfile')
+
+    def teardown(self):
+        try:
+            rmtree(self.tempdir)
+        except OSError:
+            pass
+
+    def test_io(self):
+        tempfilename = self.tempfilename
         tempfile = masterslave.open(tempfilename, mode='w')
         tempfile.write(str(masterslave.rank())+'\n')
         tempfile.flush()
+        contents = ''
         with open(tempfilename) as stillopen:
-            assert_in(str(masterslave.rank())+'\n', stillopen)
+            contents = stillopen.read()
+        assert_in(str(masterslave.rank())+'\n', contents)
         tempfile.close()
         with open(tempfilename) as nowclosed:
             ranks = [int(s.strip()) for s in nowclosed]
@@ -140,18 +152,21 @@ def test_io():
         assert_equal(set(ranks), set(range(masterslave.size())))
         if masterslave.size() != 1:
             masterslave._comm.Barrier()
-        if masterslave.rank() == 0:
-            os.remove(tempfilename)
-            os.rmdir(tempdir)
-    except:
-        sys.stderr.write('WARNING: ' + tempdir + ' has been left lying around\n')
-        raise
 
-def test_MPIFileHandler():
-    try:
-        tempdir = os.path.join(gettempdir(), 'test_MPIFileHandler')
-        masterslave.checkmakedirs(tempdir)
-        tempfilename = os.path.join(tempdir, 'tempfile')
+class TestMPIFileHandler(object):
+    def setup(self):
+        self.tempdir = os.path.join(gettempdir(), 'test_MPIFileHandler')
+        masterslave.checkmakedirs(self.tempdir)
+        self.tempfilename = os.path.join(self.tempdir, 'tempfile')
+
+    def teardown(self):
+        try:
+            rmtree(self.tempdir)
+        except OSError:
+            pass
+
+    def test_MPIFileHandler(self):
+        tempfilename = self.tempfilename
         handler = masterslave.MPIFileHandler(tempfilename, 'w')
         host = gethostname()
         formatter = logging.Formatter(host+':%(message)s')
@@ -161,23 +176,29 @@ def test_MPIFileHandler():
         logging.getLogger().removeHandler(handler)
         handler.flush()
         handler.close()
+        lines = {}
         with open(tempfilename) as tempfile:
-            assert_equal(set(tempfile.readlines()), set([host+':TEST\n']))
+            lines = set(tempfile.readlines())
+        assert_equal(lines, set([host+':TEST\n']))
         if masterslave.size() != 1:
             masterslave._comm.Barrier()
-        if masterslave.rank() == 0:
-            os.remove(tempfilename)
-            os.rmdir(tempdir)
-    except:
-        sys.stderr.write('WARNING: ' + tempdir + ' has been left lying around\n')
-        raise
 
 def main():
     test_farm()
     test_map()
     test_imap()
-    test_io()
-    test_MPIFileHandler()
+    tester = TestIO()
+    tester.setup()
+    try:
+        tester.test_io()
+    finally:
+        tester.teardown()
+    tester = TestMPIFileHandler()
+    tester.setup()
+    try:
+        tester.test_MPIFileHandler()
+    finally:
+        tester.teardown()
 
 if __name__ == '__main__':
     sys.exit(main())

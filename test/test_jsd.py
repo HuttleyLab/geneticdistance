@@ -4,12 +4,15 @@ from cogent import LoadTree, DNA
 from cogent.evolve.models import GTR
 
 import lib
+from data import get_aln
 import jsd
 
 from numpy.testing import assert_almost_equal, assert_array_almost_equal
 from numpy import log, array
 
 from itertools import product
+
+import sys
 
 def test_shannon():
     """shannon should give shannon entropy"""
@@ -20,13 +23,13 @@ def test_shannon():
 
 def test_distribution():
     """distribution should return empirical distribution for DNA sequence"""
-    st = LoadTree(tip_names='a')
+    al = get_aln('General', 1031).takeSeqs(('Mouse',))
+    distribution = jsd.distribution(al.getSeq('Mouse'))
+    st = LoadTree(tip_names=('Mouse',))
     sm = GTR()
     lf = sm.makeLikelihoodFunction(st)
-    al = lf.simulateAlignment(1000)
     lf.setMotifProbsFromData(al)
     probs = lf.getMotifProbs()
-    distribution = jsd.distribution(al.getSeq('a'))
     assert_array_almost_equal(array(probs), array(distribution))
 
 def test_jensen_shannon():
@@ -52,17 +55,14 @@ def test_jensen_shannon():
         assert_almost_equal(jsd.jensen_shannon(d), 
                 jsd.jensen_shannon(d, map(jsd.shannon, d)))
 
-def test_column_dist():
-    """column_dist should calculate empirical column distribution"""
-    st = LoadTree(tip_names='abc')
-    sm = GTR()
-    lf = sm.makeLikelihoodFunction(st)
-    al = lf.simulateAlignment(1000)
-    freqs = dict(zip([''.join(w) for w in product(*[DNA.Alphabet]*3)], [0]*64))
-    for c in [''.join(w) for w in zip(*al.todict().values())]:
-        freqs[c] += 1
-    for k in freqs:
-        freqs[k] /= 1000
-    dist = jsd.column_dist(al)
-    for k in set(freqs.keys()).union(dist.keys()):
-        assert_almost_equal(dist[k], freqs[k])
+def main():
+    test_shannon()
+    print 'Done test_shannon'
+    test_distribution()
+    print 'Done test_distribution'
+    test_jensen_shannon()
+    print 'Done test_jensen_shannon'
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main())

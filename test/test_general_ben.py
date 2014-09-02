@@ -1,4 +1,5 @@
 import lib
+from data import get_aln
 from general_ben import GeneralBen
 from nest import (inflate_likelihood_function, populate_parameters,
         get_expected_no_subs, deflate_likelihood_function)
@@ -35,7 +36,7 @@ def test_makeContinuousPsubDefn():
 def test_constrain_lengths():
     standard_params = {'is_independent': True, 'is_constant': False}
     lf_gen = inflate_likelihood_function(_General)
-    aln = lf_gen.simulateAlignment(_General['aln_length'])
+    aln = get_aln('General', _General['aln_length'])
 
     model = GeneralBen(DNA.Alphabet, recode_gaps=True, model_gaps=False,
             optimise_motif_probs=True)

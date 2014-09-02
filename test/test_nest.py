@@ -2,6 +2,7 @@ from __future__ import division
 
 import lib
 import nest
+from data import get_aln
 
 from cogent.util.misc import ConstraintError
 from cogent.evolve.substitution_model import General, GeneralStationary
@@ -10,7 +11,6 @@ from cogent.evolve.models import GTR
 from numpy.testing import assert_almost_equal, assert_array_almost_equal
 from nose.tools import assert_equal, assert_less
 from numpy import array, sqrt, allclose
-from numpy.random import standard_t
 
 import sys
 
@@ -35,7 +35,7 @@ def test_get_expected_no_subs():
 def test_inflate_deflate_likelihood_function():
     """deflate/inflate_likelihood_function are reciprocal maps"""
     lf = nest.inflate_likelihood_function(_GTRplusGamma)
-    aln = lf.simulateAlignment(_GTRplusGamma['aln_length'])
+    aln = get_aln('GTRplusGamma', _GTRplusGamma['aln_length'])
     lf.setAlignment(aln)
 
     down = nest.deflate_likelihood_function(lf)
@@ -48,141 +48,74 @@ def test_inflate_deflate_likelihood_function():
 def test_deflate_likelihood_function():
     """deflate_likelihood_function produces internally consistent statistics"""
     lf = nest.inflate_likelihood_function(_General)
-    aln = lf.simulateAlignment(_General['aln_length'])
+    aln = get_aln('General', _General['aln_length'])
     lf.setAlignment(aln)
     EN = nest.deflate_likelihood_function(lf)['EN']
     assert_equal(EN, nest.get_expected_no_subs(lf))
 
-def _check_fitted_ENS_error(d):
-    if len(d) < 2:
-        return False
-    d = array(d)
-    t = d.mean()/d.std(ddof=1)*sqrt(len(d))
-    return t < 1.96 and t > -1.96
-
 def test_seq_fit():
     """seq_fit should fit nested GTR and General models"""
-    aln_len = 1000
     for model in 'GTR', 'General':
         pre_lf = nest.inflate_likelihood_function(eval('_'+model))
         prefit = nest.get_expected_no_subs(pre_lf)
-        diffs = {edge:[] for edge in pre_lf.tree.getTipNames()}
-        for i in range(100):
-            aln = pre_lf.simulateAlignment(aln_len)
-            try:
-                lfs = nest.seq_fit(aln, pre_lf.tree, param_limit=20, 
-                        return_lfs=model)
-            except ConstraintError:
-                continue
-            if model == 'General':
-                assert_less(lfs[0].getLogLikelihood(),
-                        lfs[1].getLogLikelihood())
-            lf = lfs[-1]
-            postfit = nest.get_expected_no_subs(lf)
-            ok = True
-            for k in prefit:
-                diffs[k].append(postfit[k] - prefit[k])
-                ok = ok and _check_fitted_ENS_error(diffs[k])
-            if ok:
-                break
-        else:
-            raise AssertionError(model + ' ENS failed to converge')
+        
+        aln = get_aln(model, 100000)
+        lfs = nest.seq_fit(aln, pre_lf.tree, param_limit=20, return_lfs=model)
+        if model == 'General':
+            assert_less(lfs[0].getLogLikelihood(),
+                    lfs[1].getLogLikelihood())
+        lf = lfs[-1]
+        postfit = nest.get_expected_no_subs(lf)
+        for taxon in prefit:
+            assert_almost_equal(postfit[taxon], prefit[taxon], decimal=2) 
 
 def test_hetero_fit():
     """hetero_fit should fit GTR plus Gamma models"""
-    aln_len = 1000
     pre_lf = nest.inflate_likelihood_function(_GTRplusGamma)
     prefit = nest.get_expected_no_subs(pre_lf)
-    diffs = {edge:[] for edge in pre_lf.tree.getTipNames()}
-    for i in range(100):
-        aln = pre_lf.simulateAlignment(aln_len)
-        try:
-            lfs = nest.hetero_fit(aln, pre_lf.tree, param_limit=20,
-                    return_lfs=True)
-        except ConstraintError:
-            continue
-        postfit = nest.get_expected_no_subs(lfs.pop())
-        ok = True
-        for k in prefit:
-            diffs[k].append(postfit[k] - prefit[k])
-            ok = ok and _check_fitted_ENS_error(diffs[k])
-        if ok:
-            break
-    else:
-        raise AssertionError('hetero_fit ENS failed to converge')
+    aln = get_aln('GTRplusGamma', 100000)
+    lfs = nest.hetero_fit(aln, pre_lf.tree, param_limit=20, return_lfs=True)
+    postfit = nest.get_expected_no_subs(lfs[-1])
+    for taxon in prefit:
+        assert_almost_equal(postfit[taxon], prefit[taxon], decimal=2) 
     
 def test_hetero_clock_fit():
     """hetero_clock_fit should fit a molecular clock constrained GTR plus Gamma
     model nested in a GTR plus Gamma model"""
-    aln_len = 1000
     pre_lf = nest.inflate_likelihood_function(_GTRplusGammaClockTest)
     prefit = nest.get_expected_no_subs(pre_lf)
-    diffs = {edge:[] for edge in pre_lf.tree.getTipNames()}
-    diffs_el = {edge:[] for edge in pre_lf.tree.getTipNames()}
-    for i in range(100):
-        aln = pre_lf.simulateAlignment(aln_len)
-        try:
-            lfs = nest.hetero_clock_fit(aln, pre_lf.tree, outgroup='Opossum',
-                    param_limit=20, return_lfs=True)
-        except ConstraintError:
-            continue
-        lf_equal_length, lf = lfs
-        assert_less(lf_equal_length.getLogLikelihood(), lf.getLogLikelihood())
-        postfit = nest.get_expected_no_subs(lf)
-        postfit_equal_length = nest.get_expected_no_subs(lf_equal_length)
-        ok = True
-        for k in prefit:
-            diffs[k].append(postfit[k] - prefit[k])
-            ok = ok and _check_fitted_ENS_error(diffs[k])
-            diffs_el[k].append(postfit_equal_length[k] - prefit[k])
-            ok = ok and _check_fitted_ENS_error(diffs_el[k])
-        if ok:
-            break
-    else:
-        raise AssertionError('hetero_clock_fit failed to converge')
+    aln = get_aln('GTRplusGammaClockTest', 100000)
+    lfs = nest.hetero_clock_fit(aln, pre_lf.tree, outgroup='Opossum',
+            param_limit=20, return_lfs=True)
+    lf_equal_length, lf = lfs
+    assert_less(lf_equal_length.getLogLikelihood(), lf.getLogLikelihood())
+    postfit = nest.get_expected_no_subs(lf)
+    postfit_equal_length = nest.get_expected_no_subs(lf_equal_length)
+    for taxon in prefit:
+        assert_almost_equal(postfit[taxon], prefit[taxon], decimal=2) 
+        assert_almost_equal(postfit_equal_length[taxon], prefit[taxon], decimal=2) 
 
 def test_clock_fit():
     """clock_fit should fit nested GTR, General, and GeneralBen models,
     some with equal branch lengths"""
-    aln_len = 1000
-    for model in _GTRClockTest, _GeneralBen:
+    for modelname in ('GTRClockTest', 'GeneralBen'):
+        model = eval('_' + modelname)
         pre_lf = nest.inflate_likelihood_function(model)
         prefit = nest.get_expected_no_subs(pre_lf)
-        diffs = {edge:[] for edge in pre_lf.tree.getTipNames()}
-        diffs_el = {edge:[] for edge in pre_lf.tree.getTipNames()}
-        for i in range(100):
-            aln = pre_lf.simulateAlignment(aln_len)
-            try:
-                lfs = nest.clock_fit(aln, pre_lf.tree,
-                        outgroup='Opossum', param_limit=20,
-                        return_lfs='GTR' if model==_GTRClockTest else 'General')
-            except ConstraintError:
-                continue
-            if model == _GTRClockTest:
-                lf_equal_length = lfs[0]
-                lf = lfs[1]
-            else:
-                lf_equal_length = lfs[2]
-                lf = lfs[3]
-            assert_less(lf_equal_length.getLogLikelihood(),
-                    lf.getLogLikelihood())
-            if model == _GeneralBen:
-                assert_less(lfs[0].getLogLikelihood(),
+        aln = get_aln(modelname, 100000)
+        lfs = nest.clock_fit(aln, pre_lf.tree, outgroup='Opossum', param_limit=20, 
+                return_lfs='GTR' if modelname.startswith('GTR') else 'General')
+        lf_equal_length, lf = lfs[:2] if modelname[:3] == 'GTR' else lfs[2:]
+        assert_less(lf_equal_length.getLogLikelihood(), lf.getLogLikelihood())
+        if modelname == 'GeneralBen':
+            assert_less(lfs[0].getLogLikelihood(),
                         lf_equal_length.getLogLikelihood())
-            postfit = nest.get_expected_no_subs(lf)
-            postfit_equal_length = nest.get_expected_no_subs(lf_equal_length)
-            ok = True
-            for k in prefit:
-                diffs[k].append(postfit[k] - prefit[k])
-                ok = ok and _check_fitted_ENS_error(diffs[k])
-                diffs_el[k].append(postfit_equal_length[k] - prefit[k])
-                ok = ok and _check_fitted_ENS_error(diffs_el[k])
-            if ok:
-                break
-        else:
-            raise AssertionError(model['name'] + 
-                    ('plus Gamma' if model['with_rate'] else '')
-                    + ' ENS failed to converge')
+        postfit = nest.get_expected_no_subs(lf)
+        postfit_equal_length = nest.get_expected_no_subs(lf_equal_length)
+        for taxon in prefit:
+            assert_almost_equal(postfit[taxon], prefit[taxon], decimal=2) 
+            assert_almost_equal(postfit_equal_length[taxon], prefit[taxon], 
+                    decimal=2) 
 
 def test_populate_parameters():
     """populate_parameters should set up a nested likelihood function"""
@@ -196,7 +129,28 @@ def test_populate_parameters():
         assert_array_almost_equal(lf_GTR.getPsubForEdge(edge),
                 lf_General.getPsubForEdge(edge))
 
+def generate_alignments():
+    from gzip import GzipFile
+    from data import get_data_dir
+    from os.path import join
+    alns = [('GTRplusGamma', _GTRplusGamma['aln_length']),
+            ('General', _General['aln_length']),
+            ('GTR', 100000), ('General', 100000),
+            ('GTRplusGamma', 100000), ('GTRplusGammaClockTest', 100000),
+            ('GTRClockTest', 100000), ('GeneralBen', 100000)]
+    alns = [('GTRClockTest', 100000), ('GeneralBen', 100000)]
+    for model, aln_len in alns:
+        lf = nest.inflate_likelihood_function(eval('_' + model))
+        aln = lf.simulateAlignment(aln_len)
+        filename = '_'.join((model, str(aln_len))) + '.fasta.gz'
+        with GzipFile(join(get_data_dir(), filename), 'w') as aln_file:
+            aln_file.write(aln.toFasta())
+    return 0
+
 def main():
+#    generate_alignments()
+#    return 0
+
     test_populate_parameters()
     print 'done test_populate_parameters'
     test_deflate_likelihood_function()
