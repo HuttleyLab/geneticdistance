@@ -8,6 +8,15 @@ from numpy import array
 
 import sys
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
+__version__ = '0.0.1-dev'
+
 def quantile(x, probs=None, **kw):
     return array(r.quantile(FloatVector(x), probs=FloatVector(probs), **kw))
 

@@ -2,6 +2,14 @@ import cogent.maths.matrix_exponentiation as cme
 from numpy.linalg import inv, eig
 import numpy as np
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler', 'Von Bing Yap']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
+__version__ = '0.0.1-dev'
 
 class _Exponentiator(object):
     def __init__(self, Q):

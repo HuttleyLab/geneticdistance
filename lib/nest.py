@@ -20,6 +20,13 @@ from itertools import combinations, product
 from collections import defaultdict
 from toposort import sort
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
 __version__ = '0.0.21-dev'
 
 def expected_no_subs(p0, Q, t):

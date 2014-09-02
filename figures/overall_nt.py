@@ -11,6 +11,15 @@ from scipy.stats import sem
 import sys
 import os
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
+__version__ = '0.0.1-dev'
+
 def print_mean_and_ci(r, x):
     print r['name'] + ('+Gamma' if r['with_rate'] else '')
     print 'Samples', len(x)

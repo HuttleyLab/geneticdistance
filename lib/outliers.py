@@ -8,6 +8,15 @@ quantreg = importr('quantreg')
 
 import sys
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
+__version__ = '0.0.1-dev'
+
 def qlim(x, y):
     df = DataFrame({'x':FloatVector(x), 'y':FloatVector(y)})
     rq = quantreg.rq('y ~ x', df, tau=FloatVector((0.25, 0.5, 0.75)))
@@ -37,27 +46,6 @@ def qcrop(xlist, ylist, labels=None):
             'xcrop': FloatVector(xcrop) , 'ycrop': FloatVector(ycrop),
             'facet': FactorVector(StrVector(facet), levels=StrVector(labels))})
     return df
-
-def chebyshev(x, y, stdevs=3.):
-    stdev = std(y)
-    avg = mean(y)
-    thresholds = avg - stdevs * stdev, avg + stdevs * stdev
-    print 'Threshold', thresholds
-    out = []
-    for _x, _y in zip(x, y):
-        if _y < thresholds[0]  or _y > thresholds[1]:
-            print 'Lost', _x, _y
-            continue
-        out.append((_x, _y))
-    return map(array, zip(*out))
-
-def ols_p(x, y, p_value=0.05):
-    from statsmodels.api import OLS
-    bonfp = OLS(x, y).fit().outlier_test()[:,2]
-    for i, p in enumerate(bonfp):
-        if p < p_value:
-            print 'Lost', x[i], y[i]
-    return zip(*[(x[i], y[i]) for i, p in enumerate(bonfp) if p >= p_value])
 
 def main():
     pass

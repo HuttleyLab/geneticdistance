@@ -10,6 +10,15 @@ from numpy.testing import assert_array_almost_equal, assert_almost_equal
 import numpy as np
 import sys
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
+__version__ = '0.0.1-dev'
+
 def test_makeContinuousPsubDefn():
     standard_params = {'is_independent': True, 'is_constant': False}
     

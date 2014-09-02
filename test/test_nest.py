@@ -14,6 +14,15 @@ from numpy import array, sqrt, allclose
 
 import sys
 
+__author__ = 'Ben Kaehler'
+__copyright__ = 'Copyright 2014, Ben Kaehler'
+__credits__ = ['Ben Kaehler']
+__license__ = 'GPL'
+__maintainer__ = 'Ben Kaehler'
+__email__ = 'benjamin.kaehler@anu.edu.au'
+__status__ = 'Production'
+__version__ = '0.0.1-dev'
+
 def test_expected_no_subs():
     """expected_no_subs should return -int_0^t p0 exp(Qt) dt diag(Q)"""
     result = 0.7295333
