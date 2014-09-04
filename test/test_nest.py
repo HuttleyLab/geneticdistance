@@ -1,18 +1,17 @@
 from __future__ import division
 
-import lib
-import nest
-from data import get_aln
+from numpy.testing import assert_almost_equal, assert_array_almost_equal
+from nose.tools import assert_equal, assert_less
+from numpy import array, sqrt, allclose
+import sys
 
 from cogent.util.misc import ConstraintError
 from cogent.evolve.substitution_model import General, GeneralStationary
 from cogent.evolve.models import GTR
 
-from numpy.testing import assert_almost_equal, assert_array_almost_equal
-from nose.tools import assert_equal, assert_less
-from numpy import array, sqrt, allclose
-
-import sys
+import lib
+import nest
+from data import get_aln
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
@@ -21,7 +20,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.1-dev'
+__version__ = '0.0.21-dev'
 
 def test_expected_no_subs():
     """expected_no_subs should return -int_0^t p0 exp(Qt) dt diag(Q)"""

@@ -1,10 +1,10 @@
 from __future__ import division
 
-from cogent import DNA, RNA
-
-from math import log as ln
+from numpy import log as ln
 import logging
 import os
+
+from cogent import DNA, RNA
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
@@ -13,7 +13,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.2-dev'
+__version__ = '0.0.3-dev'
 
 def distribution(seq, alphabet = DNA.Alphabet):
     d = [seq.count(b) for b in alphabet]

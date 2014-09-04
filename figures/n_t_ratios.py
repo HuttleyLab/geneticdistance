@@ -1,14 +1,13 @@
 from __future__ import division
 
-import lib
+import sys
+import os
 
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv
 from rpy2.robjects import r as R
 
-import numpy as np
-import sys
-import os
+import lib
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

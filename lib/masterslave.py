@@ -7,6 +7,7 @@ except ImportError:
 from itertools import izip
 from logging import StreamHandler
 import sys
+import traceback
 import os
 
 __author__ = 'Ben Kaehler'
@@ -16,7 +17,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.9-dev'
+__version__ = '0.0.10-dev'
 
 _MASTER = 0
 _WORKTAG = 1
@@ -163,7 +164,6 @@ def _slave(function):
         try:
             result = function(item)
         except:
-            import traceback, sys
             sys.stderr.write('Uncaught exception:\n'+traceback.format_exc())
             _comm.Abort(1)
         _comm.send(result, dest=_MASTER, tag=_WORKTAG)

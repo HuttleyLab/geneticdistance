@@ -1,15 +1,14 @@
 from __future__ import division
 
-import lib
+from numpy import array, std, sqrt
+import sys
+import os
 
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv
 from rpy2.robjects import r as R
 
-import numpy as np
-from scipy.stats import sem
-import sys
-import os
+import lib
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
@@ -18,13 +17,13 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.1-dev'
+__version__ = '0.0.2-dev'
 
 def print_mean_and_ci(r, x):
     print r['name'] + ('+Gamma' if r['with_rate'] else '')
     print 'Samples', len(x)
-    x = np.array(x)
-    m, s = x.mean(), sem(x)
+    x = array(x)
+    m, s = x.mean(), std(x)/sqrt(x)
     print 'mean', 'stdev', 'ci'
     print m, s, m-1.96*s, m+1.96*s
 

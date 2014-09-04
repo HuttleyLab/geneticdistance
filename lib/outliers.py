@@ -1,12 +1,11 @@
 from __future__ import division
 
+import sys
 from numpy import abs, floor, array, std, mean, nan
 
 from rpy2.robjects import DataFrame, FloatVector, StrVector, FactorVector
 from rpy2.robjects.packages import importr
 quantreg = importr('quantreg')
-
-import sys
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

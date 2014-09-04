@@ -1,10 +1,7 @@
 from __future__ import division
 
-from nest import inflate_likelihood_function, _update
-
 from gzip import GzipFile
 from collections import defaultdict, Counter
-
 import logging
 import traceback
 import json
@@ -12,6 +9,8 @@ import glob
 import sys
 import csv
 import os
+
+from nest import inflate_likelihood_function, _update
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

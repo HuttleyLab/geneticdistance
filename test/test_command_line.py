@@ -4,17 +4,15 @@ try:
 except ImportError:
     USING_MPI = False
 
-import src
-from data import get_data_dir
-
 from nose.tools import assert_equal, assert_in
-
 from os.path import realpath, abspath, dirname, join
 from shutil import rmtree
 from inspect import getfile, currentframe
 from tempfile import gettempdir
-
 import sys
+
+import src
+from data import get_data_dir
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

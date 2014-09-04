@@ -1,16 +1,15 @@
 from __future__ import division
 
-import lib
+import numpy as np
+from collections import defaultdict, Counter
+from results import gs_p, get_results
+import sys
 
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, IntVector, StrVector, globalenv
 from rpy2.robjects import r as R
 
-import numpy as np
-
-from collections import defaultdict, Counter
-from results import gs_p, get_results
-import sys
+import lib
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

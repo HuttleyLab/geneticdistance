@@ -1,8 +1,7 @@
 from __future__ import division
 
-import lib
-
-from outliers import qcrop
+import sys
+import os
 
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv
@@ -10,9 +9,8 @@ from rpy2.robjects import r as R
 from rpy2.robjects.packages import importr
 quantreg = importr('quantreg')
 
-import numpy as np
-import sys
-import os
+import lib
+from outliers import qcrop
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

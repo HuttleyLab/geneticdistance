@@ -1,14 +1,14 @@
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
+import numpy as np
+import sys
+
+from cogent import LoadTree, DNA
+
 import lib
 from data import get_aln
 from general_ben import GeneralBen
 from nest import (inflate_likelihood_function, populate_parameters,
         get_expected_no_subs, deflate_likelihood_function)
-
-from cogent import LoadTree, DNA
-
-from numpy.testing import assert_array_almost_equal, assert_almost_equal
-import numpy as np
-import sys
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
@@ -17,7 +17,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.1-dev'
+__version__ = '0.0.3-dev'
 
 def test_makeContinuousPsubDefn():
     standard_params = {'is_independent': True, 'is_constant': False}
@@ -43,7 +43,6 @@ def test_makeContinuousPsubDefn():
         assert_almost_equal(ben_lens[edge], ben_ens[edge])
 
 def test_constrain_lengths():
-    standard_params = {'is_independent': True, 'is_constant': False}
     lf_gen = inflate_likelihood_function(_General)
     aln = get_aln('General', _General['aln_length'])
 

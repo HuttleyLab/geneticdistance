@@ -1,19 +1,8 @@
-# disable cogent.utils.parallel to stop it from conflicting with masterslave
 import os
+# disable cogent.utils.parallel to stop it from conflicting with masterslave
 os.environ['DONT_USE_MPI'] = '1'
 from warnings import filterwarnings
 filterwarnings('ignore', 'Not using MPI', UserWarning)
-
-import lib
-import masterslave
-import nest
-
-from collections import defaultdict
-
-import cogent
-
-from itertools import combinations
-from gzip import GzipFile
 from functools import partial
 from traceback import format_exc
 from socket import gethostname
@@ -21,10 +10,14 @@ import random
 import time
 import logging
 import json
-import numpy as np
 import glob
 import sys
-import os
+
+import cogent
+
+import lib
+import masterslave
+import nest
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

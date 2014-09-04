@@ -1,17 +1,16 @@
 from __future__ import division
 
-import lib
-import masterslave
-
 from nose.tools import assert_equal, assert_less, assert_in
 from tempfile import gettempdir
 from socket import gethostname
 import logging
 import types
-
 from shutil import rmtree
 import os
 import sys
+
+import lib
+import masterslave
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
@@ -20,7 +19,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.1-dev'
+__version__ = '0.0.10-dev'
 
 def test_farm():
     size = masterslave.size()

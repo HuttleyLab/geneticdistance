@@ -1,27 +1,19 @@
 from __future__ import division
 
-import lib
+import glob
+import sys
+import os
+from gzip import GzipFile
 
+from cogent.evolve.pairwise_distance import ParalinearPair
 from cogent import LoadSeqs, LoadTree
 from cogent import DNA
-
-import subprocess
-import csv
-import tempfile
-
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv
 from rpy2.robjects import r as R
 
-from gzip import GzipFile
-from cogent.evolve.pairwise_distance import ParalinearPair
-
+import lib
 from handy_r import through_the_origin
-
-import numpy as np
-import glob
-import sys
-import os
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

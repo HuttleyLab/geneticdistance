@@ -1,6 +1,7 @@
-import cogent.maths.matrix_exponentiation as cme
 from numpy.linalg import inv, eig
 import numpy as np
+
+import cogent.maths.matrix_exponentiation as cme
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

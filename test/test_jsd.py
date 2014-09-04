@@ -1,18 +1,16 @@
 from __future__ import division
 
+from numpy.testing import assert_almost_equal, assert_array_almost_equal
+from numpy import log, array
+from itertools import product
+import sys
+
 from cogent import LoadTree, DNA
 from cogent.evolve.models import GTR
 
 import lib
 from data import get_aln
 import jsd
-
-from numpy.testing import assert_almost_equal, assert_array_almost_equal
-from numpy import log, array
-
-from itertools import product
-
-import sys
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
@@ -21,7 +19,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.1-dev'
+__version__ = '0.0.3-dev'
 
 def test_shannon():
     """shannon should give shannon entropy"""

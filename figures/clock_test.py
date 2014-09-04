@@ -1,17 +1,15 @@
 from __future__ import division
 
-import lib
-
-from handy_r import lrt_p
+import numpy as np
+import sys
+import os
 
 from rpy2.robjects.lib.ggplot2 import ggplot
 from rpy2.robjects import DataFrame, FloatVector, globalenv, StrVector
 from rpy2.robjects import r as R
 
-from bisect import bisect
-import numpy as np
-import sys
-import os
+import lib
+from handy_r import lrt_p
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

@@ -1,11 +1,13 @@
+import numpy as np
+from scipy_optimize import newton
+
 from cogent.evolve.substitution_model import General
 from cogent.evolve.substitution_calculation import (
         CalcDefn, NonParamDefn, ExpDefn)
 from cogent.maths.matrix_exponentiation import EigenExponentiator
+
 from matrix_exponential_integration import (
         VanLoanIntegratingExponentiator, VonBingIntegratingExponentiator)
-import numpy as np
-from scipy_optimize import newton
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

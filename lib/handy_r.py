@@ -1,12 +1,10 @@
+from numpy import array
+import sys
 
 from rpy2.robjects import DataFrame, FloatVector, globalenv
 from rpy2.robjects import r
 from rpy2.robjects.packages import importr
 stats = importr('stats')
-
-from numpy import array
-
-import sys
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

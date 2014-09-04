@@ -1,24 +1,21 @@
 from __future__ import division
 
-import lib
-
-from outliers import qcrop
-from handy_r import quantile
-
-from cogent import LoadSeqs, LoadTree
-from cogent import DNA
-
-from rpy2.robjects.lib.ggplot2 import ggplot
-from rpy2.robjects import DataFrame, FloatVector, globalenv
-from rpy2.robjects import r as R
-
 from gzip import GzipFile
-
 import itertools
 import numpy as np
 import glob
 import sys
 import os
+
+from cogent import LoadSeqs, LoadTree
+from cogent import DNA
+from rpy2.robjects.lib.ggplot2 import ggplot
+from rpy2.robjects import DataFrame, FloatVector, globalenv
+from rpy2.robjects import r as R
+
+import lib
+from outliers import qcrop
+from handy_r import quantile
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

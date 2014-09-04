@@ -1,9 +1,11 @@
-import lib
-import matrix_exponential_integration as expm
 from numpy.testing import assert_almost_equal, assert_raises, \
     assert_array_almost_equal
 from numpy import array, dot, diag, exp
+
 import cogent.maths.matrix_exponentiation as cmme
+
+import lib
+import matrix_exponential_integration as expm
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'

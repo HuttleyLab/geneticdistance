@@ -1,7 +1,9 @@
-import jsd
-from general_ben import GeneralBen
-
 import sys
+from gzip import GzipFile
+import numpy as np
+from itertools import combinations, product
+from collections import defaultdict
+
 from cogent.util.misc import ConstraintError
 from cogent import LoadSeqs, LoadTree
 from cogent import DNA
@@ -10,19 +12,17 @@ from cogent.evolve.substitution_model import (General, GeneralStationary,
 from cogent.evolve.models import GTR, HKY85
 from cogent.recalculation.definition import RatioParamDefn
 from cogent.recalculation.scope import Undefined, _LeafDefn
-from gzip import GzipFile
-from itertools import combinations
+import cogent.maths.matrix_exponentiation as cme
+
+import jsd
+from general_ben import GeneralBen
 from matrix_exponential_integration import (VonBingIntegratingExponentiator,
         VanLoanIntegratingExponentiator)
-import numpy as np
-import cogent.maths.matrix_exponentiation as cme
-from itertools import combinations, product
-from collections import defaultdict
 from toposort import sort
 
 __author__ = 'Ben Kaehler'
 __copyright__ = 'Copyright 2014, Ben Kaehler'
-__credits__ = ['Ben Kaehler']
+__credits__ = ['Ben Kaehler', 'Gavin Huttley']
 __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
@@ -394,92 +394,7 @@ def populate_parameters(lf_to, lf_from, **sp_kw):
 
     
 def main():
-
-#    st = LoadTree(tip_names=['a','b','c'])
-#    sm = GTR(optimise_motif_probs=True)
-#    lf = sm.makeLikelihoodFunction(st)
-#    print lf.getParamNames()
-#    sm = GeneralStationary(DNA.Alphabet, recode_gaps=True, model_gaps=False, optimise_motif_probs=True)
-#    lf = sm.makeLikelihoodFunction(st)
-#    print lf.getParamNames()
-#    sm = General(DNA.Alphabet, recode_gaps=True, model_gaps=False, optimise_motif_probs=True)
-#    lf = sm.makeLikelihoodFunction(st)
-#    print lf.getParamNames()
-   
-    sm_GTR = GTR(optimise_motif_probs=True)
-    sm_GS = GeneralStationary(DNA.Alphabet, recode_gaps=True, model_gaps=False, optimise_motif_probs=True)
-    sm_G = General(DNA.Alphabet, recode_gaps=True, model_gaps=False, optimise_motif_probs=True)
-
-    sequences = None
-    align_file = \
-        '/Users/ben/Data/filtered_sampled_hcom/ENSG00000256870.fasta.gz'
-    with GzipFile(align_file) as archive:
-        sequences = LoadSeqs(data=archive.read())
-    assert sequences, 'Problem loading ' + align_file
-   
-    for triad in combinations(sequences.getSeqNames(), 3):
-        sa = sequences.takeSeqs(triad)
-        st = LoadTree(tip_names=sa.Names)
-#        lengths = compare_lengths(sm_GTR, sm_G, sa, st)
-#        for length in lengths:
-#            print length
-
-        lf_from = sm_GS.makeLikelihoodFunction(st, space=2)
-        for param in lf_from.getParamNames():
-            lf_from.setParamRule(param, is_independent=True, is_constant=False)
-        lf_from.setAlignment(sa)
-        lf_from.optimise()
-        print ' '.join(triad)
-        print 'from'
-        print lf_from
-        print 'df and ll', lf_from.getNumFreeParams(), \
-                lf_from.getLogLikelihood()
-        for species in triad:
-            print species
-            print lf_from.getRateMatrixForEdge(species)
-            expm = cme.RobustExponentiator(
-                    np.array(lf_from.getRateMatrixForEdge(species)))
-            print np.dot(np.array(lf_from.getMotifProbs(edge=species)),
-                    expm(lf_from.getParamValue('length', edge=species)))
-
-        lf_to = sm_G.makeLikelihoodFunction(st, space=2)
-        lf_to.setAlignment(sa)
-        populate_parameters(lf_to, lf_from)
-        for param in lf_to.getParamNames():
-            lf_to.setParamRule(param, is_independent=True, is_constant=False)
-#        lf_to.optimise(local=True)
-        print 'to'
-        print lf_to
-        print 'df and ll', lf_to.getNumFreeParams(), \
-                lf_to.getLogLikelihood()
-        for species in triad:
-            print species
-            print lf_to.getRateMatrixForEdge(species)
-            expm = cme.RobustExponentiator(
-                    np.array(lf_from.getRateMatrixForEdge(species)))
-            print np.dot(np.array(lf_to.getMotifProbs(edge=species)),
-                    expm(lf_to.getParamValue('length', edge=species)))
-            print np.array(lf_to.getRateMatrixForEdge(species)) / \
-                np.array(lf_from.getRateMatrixForEdge(species))
-
-        
-        break
-
-
-#        for param in lf.getParamNames():
-#            lf.setParamRule(param, is_independent=True, is_constant=False)
-#        lf.setAlignment(sa)
-#        lf.optimise(local=True)
-#
-#        print lf.getParamValueDict(['edge'])
-#        print lf.getParamValueDict(['mprobs'])
-#        for edge in triad:
-#            print edge
-#            print lf.getRateMatrixForEdge(edge)
-#        print lf
-
-    # print lf.simulateAlignment()
-        
+    pass
 
 if __name__ == '__main__':
     main()
