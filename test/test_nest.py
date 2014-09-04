@@ -20,7 +20,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.21-dev'
+__version__ = '0.0.22-dev'
 
 def test_expected_no_subs():
     """expected_no_subs should return -int_0^t p0 exp(Qt) dt diag(Q)"""

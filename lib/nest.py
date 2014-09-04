@@ -27,7 +27,7 @@ __license__ = 'GPL'
 __maintainer__ = 'Ben Kaehler'
 __email__ = 'benjamin.kaehler@anu.edu.au'
 __status__ = 'Production'
-__version__ = '0.0.21-dev'
+__version__ = '0.0.22-dev'
 
 def expected_no_subs(p0, Q, t):
     try:
@@ -38,7 +38,7 @@ def expected_no_subs(p0, Q, t):
         return -np.dot(p0, iexpm(t))[0]
 
 def get_edge_names(lf):
-    return [n.Name for n in lf.tree.getEdgeVector() if not n.isroot()]
+    return [n.Name for n in lf.tree.getEdgeVector(include_root=False)]
 
 def get_pi_for_edge(lf, name):
     parent = lf.tree.getNodeMatchingName(name).Parent.Name
