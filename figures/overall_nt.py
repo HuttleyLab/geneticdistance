@@ -23,7 +23,7 @@ def print_mean_and_ci(r, x):
     print r['name'] + ('+Gamma' if r['with_rate'] else '')
     print 'Samples', len(x)
     x = array(x)
-    m, s = x.mean(), std(x)/sqrt(x)
+    m, s = x.mean(), std(x)/sqrt(len(x))
     print 'mean', 'stdev', 'ci'
     print m, s, m-1.96*s, m+1.96*s
 

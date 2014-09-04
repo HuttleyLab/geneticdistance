@@ -140,7 +140,7 @@ class DLCCheck(Check):
         super(DLCCheck, self).__init__('DLC')
     
     def check(self, row):
-        return inflate_likelihood_function(row).isDLC()
+        return inflate_likelihood_function(row).allPsubsDLC()
 
 class UniqueCheck(Check):
     def __init__(self):
@@ -148,7 +148,7 @@ class UniqueCheck(Check):
 
     def check(self, row):
         try:
-            armu = inflate_likelihood_function(row).areRateMatricesUnique()
+            armu = inflate_likelihood_function(row).allRateMatricesUnique()
         except (ArithmeticError, NotImplementedError):
             logging.debug(traceback.format_exc())
             return False

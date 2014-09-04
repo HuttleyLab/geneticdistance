@@ -3,14 +3,14 @@ A=500
 echo $G $A
 set -e
 set -x
-python overall_nt.py -f input_files/exons_combined -D -u -a $A -g $G -p '"Mouse", "Human"'
-python human_gt_mouse.py -f input_files/clock_test -D -u -a $A -g $G
-python stdev.py -f input_files/stdev -D -u -a $A -g $G -p '"Human", "Mouse"'
-python akaike.py -f input_files/g_tests -D -u -a $A -g $G
 twopi -Tpdf triad_example.dot > figure0.pdf
 dot -Tpdf seq_fit.dot > figure1a.pdf
 dot -Tpdf clock_fit.dot > figure1b.pdf
 dot -Tpdf clock_fit_gamma.dot > figure1c.pdf
+python overall_nt.py -f input_files/exons_combined -D -u -a $A -g $G -p '"Mouse", "Human"'
+python human_gt_mouse.py -f input_files/clock_test -D -u -a $A -g $G
+python stdev.py -f input_files/stdev -D -u -a $A -g $G -p '"Human", "Mouse"'
+python akaike.py -f input_files/g_tests -D -u -a $A -g $G
 python bar.py -f input_files/g_tests -D -u -a $A -o figure2.pdf
 python jsd_plots_facets.py -f input_files/exons_combined -D -u -a $A -g $G -o figure3a.pdf
 python jsd_plots_facets.py -f input_files/16s_combined -D -u -a $A -g $G -o figure3b.pdf
