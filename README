@@ -37,14 +37,12 @@ Optional
     - ggplot2 1.0.0
     - stats 3.1.1
     - quantreg 5.05
-- graphviz_ 2.38.0
 
 .. _mpi4py: http://mpi4py.scipy.org
 .. _nose: https://pypi.python.org/pypi/nose/1.3.4
 .. _scipy: http://www.scipy.org
 .. _rpy2: https://pypi.python.org/pypi/rpy2
 .. _R: http://cran.r-project.org
-.. _graphviz: http://www.graphviz.org
 
 ********************
 Installing this code
