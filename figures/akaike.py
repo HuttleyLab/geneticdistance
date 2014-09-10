@@ -26,6 +26,9 @@ def akaike_order(rs):
     ak.sort()
     return tuple(zip(*ak)[1])
 
+def gtrplusgamma_beats_gtr(order):
+    return order.index('GTR+Gamma') < order.index('GTR')
+
 def plot_bar(stats, **kw):
     names = [r['name'] for r in stats.values()[0][0]]
     with_rates = [r['with_rate'] for r in stats.values()[0][0]]
@@ -44,8 +47,15 @@ def plot_bar(stats, **kw):
         else:
             dataset = 'Microbial'
         print dataset
+        total = 0
+        gpg_b_g = 0
         for order in akaike[d]:
             print order, akaike[d][order]
+            if gtrplusgamma_beats_gtr(order):
+                gpg_b_g += akaike[d][order]
+            total += akaike[d][order]
+        print 'GTR+Gamma beats GTR', 'Total', 'Proportion'
+        print gpg_b_g, total, gpg_b_g / total
 
 def main():
     stats, args = get_results()
