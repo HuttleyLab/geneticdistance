@@ -13,11 +13,11 @@ from cogent.evolve.models import GTR, HKY85
 from cogent.recalculation.definition import RatioParamDefn
 from cogent.recalculation.scope import Undefined, _LeafDefn
 import cogent.maths.matrix_exponentiation as cme
+from cogent.maths.matrix_exponential_integration import (
+        VonBingIntegratingExponentiator, VanLoanIntegratingExponentiator)
 
 import jsd
 from general_ben import GeneralBen
-from matrix_exponential_integration import (VonBingIntegratingExponentiator,
-        VanLoanIntegratingExponentiator)
 from toposort import sort
 
 __author__ = 'Ben Kaehler'

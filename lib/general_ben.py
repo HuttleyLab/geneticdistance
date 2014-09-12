@@ -5,8 +5,7 @@ from cogent.evolve.substitution_model import General
 from cogent.evolve.substitution_calculation import (
         CalcDefn, NonParamDefn, ExpDefn)
 from cogent.maths.matrix_exponentiation import EigenExponentiator
-
-from matrix_exponential_integration import (
+from cogent.maths.matrix_exponential_integration import (
         VanLoanIntegratingExponentiator, VonBingIntegratingExponentiator)
 
 __author__ = 'Ben Kaehler'
