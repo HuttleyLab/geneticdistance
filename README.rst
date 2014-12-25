@@ -4,9 +4,9 @@ Instructions for reproducing results of Kaehler et al
 
 :authors: Benjamin D. Kaehler, Von Bing Yap, Rongli Zhang, and Gavin A. Huttley
 
-*****************************
-Contents of the Dryad tarball
-*****************************
+**************************
+Contents of the Repository
+**************************
 
 1. `src` contains two command line scripts that perform all model fitting and goodness-of-fit testing.
 2. `figures` contains several scripts that process the output from the executables in `src` and produce figures and statistics.
@@ -67,11 +67,11 @@ to confirm that the MPI functionality is working properly.
 Reproduce the figures (plots and numbers) from the paper
 ********************************************************
 
-
-1. Move the microbial multiple sequence alignments into the directory ``~/Data/greengenes/uniform/``
-2. Move the mammal multiple sequence alignments into the directory ``~/Data/release-68/exons/aligned/``
-3. Move the mitochondrial multiple sequence alignments into the directory ``ls ~/Data/release-68/mtDNA/aligned/``
-4. Change your working directory to src and run the following commands. (Launch theses scripts using MPI with a few hundred processes, or they will take a very, very long time to complete.)::
+1. Download the multiple sequence alignments from Dryad_.
+2. Move the microbial multiple sequence alignments into the directory ``~/Data/greengenes/uniform/``
+3. Move the mammal multiple sequence alignments into the directory ``~/Data/release-68/exons/aligned/``
+4. Move the mitochondrial multiple sequence alignments into the directory ``~/Data/release-68/mtDNA/aligned/``
+5. Change your working directory to src and run the following commands. (Launch theses scripts using MPI with a few hundred processes, or they will take a very, very long time to complete.)::
 
     $ python nonstationary_lengths.py -i ~/Data/release-68/exons/aligned -o ~/revisions/release-68/exons/aligned/general -l ~/revisions/release-68/exons/aligned/general/nsl.log -c 3 -u 20 -F seq_fit 
     $ python nonstationary_lengths.py -i ~/Data/release-68/exons/aligned -o ~/revisions/release-68/exons/aligned/gtrplusgamma -l ~/revisions/release-68/exons/aligned/gtrplusgamma/nsl.log -c 3 -u 20 -F hetero_fit
@@ -93,4 +93,6 @@ Reproduce the figures (plots and numbers) from the paper
     $ python g_stats.py -o ~/revisions/greengenes/uniform/general -l ~/revisions/greengenes/uniform/general/gs.log -N 100 -u 20 -P 0 -F seq_fit
     $ python g_stats.py -o ~/revisions/greengenes/uniform/gtrplusgamma -l ~/revisions/greengenes/uniform/gtrplusgamma/gs.log -N 100 -u 20 -P 0 -F hetero_fit
 
-5. Change your working directory to figures and run generate.sh. The plots will be saved in the figures directory as pdf files and the numbers will be output to screen.
+6. Change your working directory to figures and run generate.sh. The plots will be saved in the figures directory as pdf files and the numbers will be output to screen.
+
+.. _Dryad: http://doi:10.5061/dryad.g7g0n
